@@ -1,0 +1,1957 @@
+﻿CREATE DATABASE Tech_MIS;
+
+
+
+
+ USE Tech_MIS;
+
+
+CREATE TABLE student (
+        student_id VARCHAR(10) NOT NULL,
+          batch INT NOT NULL,
+          user_id INT(5) NOT NULL,
+        PRIMARY KEY(student_id),
+          FOREIGN KEY (user_id) REFERENCES user(user_id)
+);
+Query OK, 0 rows affected, 1 warning (0.05 sec)
+
+
+CREATE TABLE lecturer(
+         lecture_id VARCHAR(10) NOT NULL PRIMARY KEY,
+          department_id VARCHAR(50) NOT NULL ,
+          user_id INT(09),
+        FOREIGN KEY (department_id) REFERENCES department(dept_id)
+);
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+
+
+
+ CREATE TABLE teaches(
+     lecture_id VARCHAR(10),
+     course_id VARCHAR(10),
+     PRIMARY KEY(lecture_id,course_id));
+Query OK, 0 rows affected (0.03 sec)
+
+
+
+
+ALTER TABLE attendence
+     ADD FOREIGN KEY (course_id) REFERENCES course(course_id);
+
+
+ ALTER TABLE lecturer
+     ADD PRIMARY KEY(lecture_id);
+ ALTER TABLE lecturer
+     ADD FOREIGN KEY(user_id)REFERENCES user(user_id);
+ALTER TABLE student
+     ADD CONSTRAINT FK_StudentAttendence
+
+
+
+
+     FOREIGN KEY(attendence_id) REFERENCES attendence(Attendance_ID);
+
+
+
+
+
+
+
+
+
+
+
+
+mysql> INSERT INTO lecturer
+     VALUES
+       ('L0001','DEPT01',0002),
+     ('L0002','DEPT01',0003),
+     ('L0003','DEPT03',0017),
+     ('L0004','DEPT03',0018),
+     ('L0005','DEPT02',0019);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+
+
+
+mysql> INSERT INTO course
+     VALUES
+     ('ENG1222','ENGLISH_II',2,'focuses on learn english'),
+     ('ICT1212','DATABASE MANAGEMENT SYSTEM',2,'Learn SQL query language'),
+     ('ICT1222','DATABASE MANAGEMENT SYSTEM PRACTICUM',2,'Practice in SQL query language'),
+     ('ICT1233','SERVER-SIDE WEB DEVELOPMENT',3,'Create dynamic web pages'),
+     ('ICT1242','COMPUTER ARCHITECTURE',2,'explores the design and organization of computer systems'),
+     ('ICT1253','COMPUTER NETWORKS',3,'fundamentals of computer networking and data communication'),
+     ('TCS1212','FUNDAMENTALS OF MANAGEMENT',2,'Introduces basic concepts and principles of management'),
+     ('TMS1233','DISCRETE MATHEMATICS',3,'Covers mathematical structures and their applications in computer science') ;
+
+
+
+
+
+
+
+
+INSERT INTO teaches
+     VALUES
+     ('L0001','ICT1212'),
+     ('L0001','ICT1222'),
+     ('L0002','ICT1253'),
+     ('L0002','ICT1242'),
+     ('L0005','TMS1233');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+
+
+
+
+
+CREATE TABLE technical_officer(
+     technical_id VARCHAR(10) NOT NULL,
+     department VARCHAR(20) NOT NULL,
+     user_id INT(09) NOT NULL,
+     PRIMARY KEY(technical_id),
+     FOREIGN KEY (user_id) REFERENCES user(user_id)
+     );
+Query OK, 0 rows affected, 1 warning (0.03 sec)
+
+
+
+
+mysql> CREATE TABLE grade(
+     g_id VARCHAR(10) NOT NULL,
+     comments VARCHAR(300) NOT NULL,
+     end_marks FLOAT(3,2) NOT NULL,
+     ca_marks FLOAT(3,2) NOT NULL,
+     mid_marks FLOAT(3,2) NOT NULL,
+     student_id VARCHAR(10) NOT NULL,
+     a_id VARCHAR(10) NOT NULL,
+     PRIMARY KEY (g_id),
+     FOREIGN KEY (student_id) REFERENCES student(student_id),
+     FOREIGN KEY (a_id) REFERENCES assignment(a_id)
+     );
+Query OK, 0 rows affected, 3 warnings (0.04 sec)
+
+
+
+
+
+
+mysql> CREATE TABLE user (
+     user_id INT(9) PRIMARY KEY,
+     f_name VARCHAR(30) NOT NULL,
+     l_name VARCHAR(30) NOT NULL,
+     email VARCHAR(50) NOT NULL,
+     role VARCHAR(15) NOT NULL,
+     contact_no INT(10) NOT NULL
+);
+Query OK, 0 rows affected, 2 warnings (0.05 sec)
+
+
+
+
+
+
+mysql> CREATE TABLE dean(
+     dean_id VARCHAR(8) NOT NULL,
+     start_date DATE NOT NULL,
+     dean_user_id INT(9) NOT NULL,
+     PRIMARY KEY (dean_id),
+     CONSTRAINT FK_deanUser FOREIGN KEY(dean_user_id) REFERENCES user(user_id)
+     );
+
+
+
+
+ INSERT INTO
+    -> dean
+    -> VALUES
+    -> ('D0001','2017-01-01',1),
+    -> ('D0002','2023-01-01',16);
+
+
+
+
+
+
+
+
+mysql> CREATE TABLE assignment(A_ID char(10),Deadline date,Discription varchar(40),Title varchar(30),Course_ID char(7),PRIMARY KEY(A_ID));
+Query OK, 0 rows affected (0.02 sec)
+
+
+mysql> CREATE TABLE attendence(Attendance_ID char(10),Status varchar(30),Course_ID char(7),PRIMARY KEY(Attendance_ID));
+Query OK, 0 rows affected (0.01 sec)
+
+
+mysql> ALTER TABLE teaches
+     ADD FOREIGN KEY(lecture_id )REFERENCES  lecturer( lecture_id);
+ALTER TABLE teaches
+     ADD FOREIGN KEY(course_id )REFERENCES  course( course_id);
+
+
+ CREATE TABLE assignment
+    (student_id varchar(10),course_id varchar(10),in_class_assign int DEFAULT(00),Tutorial    int DEFAULT(00),Mini_project int DEFAULT(00),Total_assignment_marks int,
+    PRIMARY KEY(student_id, course_id,Total_assignment_marks),
+    FOREIGN KEY (student_id) REFERENCES student(student_id),
+    FOREIGN KEY (course_id) REFERENCES course(course_id));
+
+
+
+
+mysql> CREATE TABLE user (
+    user_id INT(9) PRIMARY KEY,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    role VARCHAR(15) NOT NULL,
+    contact_no INT(10) NOT NULL,
+    password VARCHAR(12) NOT NULL
+);
+
+
+CREATE TABLE dean (
+    dean_id VARCHAR(8) NOT NULL,
+    start_date DATE NOT NULL,
+    dean_user_id INT(9) NOT NULL,
+    PRIMARY KEY (dean_id),
+    CONSTRAINT FK_deanUser FOREIGN KEY (dean_user_id) REFERENCES user(user_id)
+);
+
+
+CREATE TABLE technical_officer(
+          technical_id VARCHAR(10) NOT NULL,
+          department VARCHAR(20) NOT NULL,
+          user_id INT(09) NOT NULL,
+          PRIMARY KEY(technical_id),
+          FOREIGN KEY (user_id) REFERENCES user(user_id));
+CREATE TABLE lec
+turer(
+              lecture_id VARCHAR(10) NOT NULL,
+               department VARCHAR(50) NOT NULL,
+               PRIMARY KEY (lecture_id),
+               user_id INT(09));
+
+
+
+
+CREATE TABLE student (
+             student_id VARCHAR(10) NOT NULL,
+               batch INT NOT NULL,
+               user_id INT(5) NOT NULL,
+              status  VARCHAR(20),
+             PRIMARY KEY(student_id),
+             FOREIGN KEY (user_id) REFERENCES user(user_id) );
+
+
+CREATE TABLE course(
+    course_id VARCHAR(10),
+    course_name VARCHAR(100),
+    credits VARCHAR(3),
+    No_of_quiz int,
+    total_hours int(5),
+    CA_Percentage decimal(5,2),
+    PRIMARY KEY (course_id));
+
+
+CREATE TABLE teaches(
+    lecture_id VARCHAR(10),
+    course_id VARCHAR(10),
+    PRIMARY KEY(lecture_id,course_id));
+
+
+CREATE TABLE studied (
+     student_id varchar(10),
+     course_id varchar(10),
+     PRIMARY KEY (student_id, course_id),
+     FOREIGN KEY (student_id) REFERENCES student(student_id),
+     FOREIGN KEY (course_id) REFERENCES course(course_id)
+ );
+
+
+
+
+
+
+ ALTER TABLE lecturer
+         ADD FOREIGN KEY(user_id)REFERENCES user(user_id);
+
+
+
+
+
+
+ALTER TABLE quiz
+     ADD CONSTRAINT UNIQUE (Total_quiz_marks);
+CREATE TABLE assignment
+        (student_id varchar(10),course_id varchar(10),in_class_assign float(3,2) DEFAULT(00),Tutorial float(3,2) DEFAULT(00),Mini_project float(3,2) DEFAULT(00),Total_assignment_marks float(5,2)),
+         PRIMARY KEY(student_id, course_id,Total_assignment_marks),
+         FOREIGN KEY (student_id) REFERENCES student(student_id),
+         FOREIGN KEY (course_id) REFERENCES course(course_id));
+
+
+
+
+
+
+
+
+
+
+ALTER TABLE assignment
+    -> ADD CONSTRAINT UNIQUE (Total_assignment_marks);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+
+
+
+CREATE TABLE ENG1222_course_marks (
+      student_id VARCHAR(10) NOT NULL,
+       quiz_1 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+        quiz_2 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         quiz_3 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         quiz_4 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         inclass_test_marks DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         final_quiz_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+             ((quiz_1 + quiz_2 + quiz_3 + quiz_4 - LEAST(quiz_1, quiz_2, quiz_3, quiz_4)) / 3) * 0.10
+        ) STORED,
+         final_assignment_marks DECIMAL(5, 2) GENERATED ALWAYS AS (inclass_test_marks * 0.05) STORED,
+         mid_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+         end_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+         final_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+             final_quiz_marks + final_assignment_marks + (mid_exam_marks * 0.25) + (end_exam_marks * 0.60)
+         ) STORED,
+         FOREIGN KEY (student_id) REFERENCES student(student_id) );
+
+
+
+
+
+
+mysql> CREATE TABLE continuous_assignment(student_id varchar(10),course_id varchar(10),total_quiz_marks float(3,2)DEFAULT(00),Total_assignment_marks float(3,2)DEFAULT(00),CA_total float(3,2)DEFAULT(00),PRIMARY KEY(student_id, course_id,CA_total),
+
+
+    -> FOREIGN KEY (student_id) REFERENCES student(student_id),
+    -> FOREIGN KEY (course_id) REFERENCES course(course_id),
+    -> FOREIGN KEY (total_quiz_marks) REFERENCES quiz(total_quiz_marks),
+    -> FOREIGN KEY (Total_assignment_marks) REFERENCES assignment(Total_assignment_marks));
+
+
+mysql> CREATE TABLE END_EXAM(student_id varchar(10),course_id varchar(10),end_marks int DEFAULT(00),
+    -> FOREIGN KEY (student_id) REFERENCES student(student_id),
+    -> FOREIGN KEY (course_id) REFERENCES course(course_id));
+Query OK, 0 rows affected (0.05 sec)
+
+
+mysql>
+
+
+
+
+—-------------------------------------------------------------------------------------------------------------------------------------
+CREATE DATABASE Tech_MIS;
+USE Tech_MIS;
+Database changed
+
+
+ CREATE TABLE user (
+    user_id INT(9) PRIMARY KEY,
+    first_name VARCHAR(30) NOT NULL,
+    last_name VARCHAR(30) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    role VARCHAR(15) NOT NULL,
+    contact_no INT(10) NOT NULL,
+    password VARCHAR(12) NOT NULL
+);
+
+
+ CREATE TABLE dean(
+     dean_id VARCHAR(8) NOT NULL,
+     start_date DATE NOT NULL,
+     dean_user_id INT(9) NOT NULL,
+     PRIMARY KEY (dean_id),
+     CONSTRAINT FK_deanUser FOREIGN KEY(dean_user_id) REFERENCES user(user_id)
+);
+
+
+CREATE TABLE teaches(
+    lecture_id VARCHAR(10),
+    course_id VARCHAR(10),
+    PRIMARY KEY(lecture_id,course_id)
+);
+
+
+ CREATE TABLE technical_officer(
+    technical_id VARCHAR(10) NOT NULL PRIMARY KEY,
+    department VARCHAR(20) NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
+ );
+
+
+
+
+CREATE TABLE student (
+             student_id VARCHAR(10) NOT NULL,
+               batch INT NOT NULL,
+               user_id INT(5) NOT NULL,
+              status  VARCHAR(20),
+             PRIMARY KEY(student_id),
+             FOREIGN KEY (user_id) REFERENCES user(user_id) );
+
+
+
+
+CREATE TABLE course(
+        course_id VARCHAR(10) PRIMARY KEY NOT NULL,
+        course_name VARCHAR(100) NOT NULL,
+        credits VARCHAR(3) NOT NULL,
+        no_of_quiz INT(1) NOT NULL,
+        CA_percentage FLOAT(5,2) NOT NULL,
+        total_hours INT(5) NOT NULL
+);
+
+
+ CREATE TABLE eligibility(
+            student_id VARCHAR(10) ,
+            course_id VARCHAR(10),
+            CA_total_marks FLOAT(5,2),
+            attendance_percentage FLOAT(5,2),
+            final_eligibility VARCHAR(5),
+            FOREIGN KEY (student_id) REFERENCES student(student_id),
+            FOREIGN KEY (course_id) REFERENCES course(course_id)
+);
+CREATE TABLE department(
+dept_id varchar(10) PRIMARY KEY,
+Department_name varchar(255));
+
+
+
+
+INSERT INTO department
+VALUES
+
+
+
+
+—---------------------------------------------------------------------------------------------------
+ INSERT INTO user
+ VALUES
+     (0001, 'Abel', 'Tesfaye','abeltes@gmail.com','Dean',0718032400,'abel123'),
+     (0002, 'Kavidu', 'Sinhavansa','kaviduSin@gmail.com','Lecturer',0718035670,'kavi123'),
+     (0003, 'Nuwan', 'Laksiri','Nuwanlaksiri@gmail.com','Lecturer',0761234567,'laki123'),
+     (0004, 'Yohani', 'De Silva','yohani123@gmail.com','Tech_Officer',0761234573,'yoha123'),
+     (0005, 'Saranga', 'Disanayaka','saranga21@gmail.com','Student',0761234545,'sar123'),
+     (0006, 'Chitral', 'Somapala','chitral821@gmail.com','Student',0761234512,'chi123'),
+     (0007, 'Danith', 'Sri','sridanith@gmail.com','Student',0761234565,'dan123'),
+     (0008, 'Krishanthi', 'Kalaichelvan','krish23@gmail.com','Student',0761234678,'krish123'),
+     (0009, 'Imana', 'Irfan','iman32@gmail.com','Student',0761234789,'iman123'),
+     (0010, 'Asma', 'Akram','asmaakram2@gmail.com','Student',0761234654,'as123'),
+     (0011, 'Ashfa', 'Nisthar','ashfnis@gmail.com','Student',0761234432,'ash123'),
+     (0012, 'Shukry', 'Mohammed','shukry32@gmail.com','Student',0761234546,'shk123'),
+     (0013, 'Umesha', 'Hewage','umesha52@gmail.com','Student',0761234876,'ume123'),
+     (0014, 'Keerthy', 'Pandiyan','keerthy23@gmail.com','Student',0761234654,'kee123'),
+     (0015, 'Adithya', 'Baskaran','adiyhya43@gmail.com','Student',0761234687,'adi123'),
+     (0016, 'Dasun', 'Shanaka','subash@gmail.com','Dean',0718032400,'das123'),
+     (0017, 'Kumar', 'Sangakkara','kumars@gmail.com','Lecturer',0718032400,'kur123'),
+     (0018, 'Rohit', 'Sharma','rohit123@gmail.com','Lecturer',0718032567,'rot123'),
+     (0019, 'Shaheen', 'Afridi','shaheen@gmail.com','Lecturer',0718036547,'shah123'),
+     (0020, 'Kusal', 'Mendis','kusal12@gmail.com','Student',0718012347,'kul123'),
+     (0021, 'Dilani', 'Manodra','manodra@gmail.com','Student',0718012347,'dil123'),
+     (0022, 'Smriti', 'Mandhana','smriti43@gmail.com','Student',0718562347,'smr123'),
+     (0023, 'Otara', 'Gunawardane','otara87@gmail.com','Tech_Officer',0718562347,'otar123'),
+     (0024, 'Jacquline', 'Fernandaz','fernandaz43@gmail.com','Tech_Officer',0768534547,'jac123'),
+     (0025, 'Pooja','Rajapaksha','rajapaksha@gmail.com','Tech_Officer',0768567847,'pooja123'),
+     (0026, 'Raj', 'Kumarathunga','raj432@gmail.com','Tech_Officer',0768876847,'raj123'),
+     (0027,'Dineth','Sriwardana','dineth@gmail.com','student',0773110507,'dnt123'),
+     (0028,'Sajeeya','Roshan','sajirshn@gmail.com','student',0775340058,'saji123');
+
+
+
+
+INSERT INTO course
+          VALUES
+         ('ENG1222','ENGLISH_II',2,3,40.0,30),
+          ('ICT1212','DATABASE MANAGEMENT SYSTEM',2,4,30.0,30),
+          ('ICT1222','DATABASE MANAGEMENT SYSTEM PRACTICUM',2,0,20.0,30),
+          ('ICT1233','SERVER-SIDE WEB DEVELOPMENT',3,3,40.0,60),
+          ('ICT1242','COMPUTER ARCHITECTURE',2,3,40.0,30),
+          ('ICT1253','COMPUTER NETWORKS',3,3,30.0,60),
+          ('TCS1212','FUNDAMENTALS OF MANAGEMENT',2,3,40.0,30),
+          ('TMS1233','DISCRETE MATHEMATICS',3,3,40.0,45) ;
+
+
+
+
+
+
+INSERT INTO teaches
+    VALUES
+    ('L0001','ICT1212'),
+    ('L0001','ICT1222'),
+    ('L0002','ICT1253'),
+    ('L0002','ICT1242'),
+    ('L0005','TMS1233');
+
+
+
+
+INSERT INTO dean
+    VALUES
+    ('D0001','2017-01-01',1),
+    ('D0002','2023-01-01',16);
+
+
+
+
+
+
+
+
+
+
+INSERT INTO student
+VALUES
+    ('TG1021',2021,6,'proper'),
+    ('TG1031',2021,7,'proper'),
+    ('TG1032',2021,8,'proper'),
+    ('TG1045',2021,9,'proper'),
+    ('TG1047',2021,10,'proper'),
+    ('TG1062',2021,11,'suspended'),
+    ('TG1064',2021,12,'proper'),
+    ('TG1067',2021,13,'proper'),
+    ('TG1084',2021,14,'proper'),
+    ('TG1087',2020,15,'proper'),
+    ('TG827',2020,16,'repeat'),
+    ('TG845',2020,20,'repeat'),
+    ('TG847',2020,21,'repeat'),
+    ('TG857',2020,22,'repeat'),
+    ('TG867',2020,27,'repeat'),
+    ('TG997',2020,28,'repeat');
+
+
+
+
+
+
+ INSERT INTO technical_officer
+    VALUES
+    ('Tec_Off_01','ICT',4),
+    ('Tec_Off_02','ICT',23),
+    ('Tec_Off_04','ICT',24),
+    ('Tec_Off_07','ET',25),
+    ('Tec_Off_09','BST',26);
+
+
+  
+—------------------------------------------------------------------------------------------------------------------------
+
+
+Table structures of all the courses( ADD foreign keys after inserting details)
+---------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE ENG1222_course_marks (
+    student_id VARCHAR(10) NOT NULL,
+    quiz_1 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_2 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_3 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_4 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    inclass_test_marks DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    final_quiz_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        ((quiz_1 + quiz_2 + quiz_3 + quiz_4 - LEAST(quiz_1, quiz_2, quiz_3, quiz_4)) / 3) * 0.10
+    ) STORED,
+    final_assignment_marks DECIMAL(5, 2) GENERATED ALWAYS AS (inclass_test_marks * 0.05) STORED,
+    mid_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    end_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    CA_total_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        final_quiz_marks + final_assignment_marks + (mid_exam_marks * 0.25)
+    ) STORED,
+    final_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        final_quiz_marks + final_assignment_marks + (mid_exam_marks * 0.25) + (end_exam_marks * 0.60)
+    ) STORED);
+
+
+   
+CREATE TABLE ICT1212_course_marks (
+    student_id VARCHAR(10) NOT NULL,
+    quiz_1 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_2 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_3 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_4 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    final_quiz_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        ((quiz_1 + quiz_2 + quiz_3 + quiz_4 - LEAST(quiz_1, quiz_2, quiz_3, quiz_4)) / 3) * 0.10
+    ) STORED,
+    mid_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    end_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    CA_total_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        final_quiz_marks + (mid_exam_marks * 0.20)
+    ) STORED,
+    final_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        final_quiz_marks + (mid_exam_marks * 0.20) + (end_exam_marks * 0.70)
+    ) STORED);
+
+
+ 
+CREATE TABLE ICT1233_course_marks (
+    student_id VARCHAR(10) NOT NULL,
+    quiz_1 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_2 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_3 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_4 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    final_quiz_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        ((quiz_1 + quiz_2 + quiz_3 + quiz_4 - LEAST(quiz_1, quiz_2, quiz_3, quiz_4)) / 3) * 0.10
+    ) STORED,
+    mini_project_marks DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    tutorial_assignments DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    mid_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    end_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    final_assignment_marks DECIMAL(5, 2) GENERATED ALWAYS AS ((mini_project_marks * 0.15) + (tutorial_assignments * 0.05)) STORED,
+    CA_total_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        final_quiz_marks + final_assignment_marks + (mid_exam_marks * 0.10)
+    ) STORED,
+    final_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        final_quiz_marks + final_assignment_marks + (mid_exam_marks * 0.10) + (end_exam_marks * 0.70)
+    ) STORED);
+
+
+  CREATE TABLE ICT1222_course_marks (
+    student_id VARCHAR(10) NOT NULL,
+    mini_project_marks DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    mid_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    end_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    CA_total_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        (mini_project_marks * 0.20) + (mid_exam_marks * 0.10)
+    ) STORED,
+    final_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        (mini_project_marks * 0.20) + (mid_exam_marks * 0.10) + (end_exam_marks * 0.70)
+    ) STORED);
+
+
+CREATE TABLE ICT1242_course_marks (
+    student_id VARCHAR(10) NOT NULL,
+    quiz_1 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_2 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_3 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_4 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    final_quiz_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        ((quiz_1 + quiz_2 + quiz_3 + quiz_4 - LEAST(quiz_1, quiz_2, quiz_3, quiz_4)) / 3) * 0.10
+    ) STORED,
+    assignments DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    mid_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    end_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    CA_total_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        final_quiz_marks + (assignments * 0.10) + (mid_exam_marks * 0.20)
+    ) STORED,
+    final_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        final_quiz_marks + (assignments * 0.10) + (mid_exam_marks * 0.20) + (end_exam_marks * 0.60)
+    ) STORED);
+
+
+
+
+ CREATE TABLE TCS1212_course_marks (
+    student_id VARCHAR(10) NOT NULL,
+    quiz_1 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_2 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_3 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    quiz_4 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    final_quiz_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        ((quiz_1 + quiz_2 + quiz_3 + quiz_4 - LEAST(quiz_1, quiz_2, quiz_3, quiz_4)) / 3) * 0.10
+    ) STORED,
+    assignments DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    mid_exam DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+    end_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+    CA_total_marks DECIMAL(5, 2) GENERATED ALWAYS AS (     final_quiz_marks + (assignments * 0.10) + (mid_exam* 0.20)) STORED,
+    final_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+        final_quiz_marks + (assignments * 0.10) + (mid_exam* 0.20) + (end_exam_marks * 0.60)
+    ) STORED  );
+
+
+
+
+CREATE TABLE TMS1233_course_marks (
+        student_id VARCHAR(10) NOT NULL,
+         quiz_1 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         quiz_2 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         quiz_3 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         quiz_4 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         final_quiz_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+             ((quiz_1 + quiz_2 + quiz_3 + quiz_4 - LEAST(quiz_1, quiz_2, quiz_3, quiz_4)) / 3) * 0.10
+         ) STORED,
+         assignments_tutorial DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         mid_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+         end_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+         CA_total_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+          final_quiz_marks + (assignments_tutorial * 0.05) + (mid_exam_marks * 0.25)) STORED,
+
+
+         final_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+             final_quiz_marks + (assignments_tutorial * 0.05) + (mid_exam_marks * 0.25) + (end_exam_marks * 0.60)
+         ) STORED);
+
+
+      
+CREATE TABLE ICT1253_course_marks (
+       student_id VARCHAR(10) NOT NULL,
+         quiz_1 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         quiz_2 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         quiz_3 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         quiz_4 DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         final_quiz_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+             ((quiz_1 + quiz_2 + quiz_3 + quiz_4 - LEAST(quiz_1, quiz_2, quiz_3, quiz_4)) / 3) * 0.10
+         ) STORED,
+         practical_assignments DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         in_calss_test DECIMAL(5, 2) DEFAULT 0.00 NOT NULL,
+         end_exam_marks DECIMAL(5, 2) NOT NULL DEFAULT 0.00,
+         CA_total_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+          final_quiz_marks + (practical_assignments * 0.10) + (in_calss_test * 0.10)) STORED,
+         final_marks DECIMAL(5, 2) GENERATED ALWAYS AS (
+             final_quiz_marks + (practical_assignments * 0.10) + (in_calss_test * 0.10) + (end_exam_marks * 0.70)
+         ) STORED);
+
+
+
+
+ALTER TABLE  ENG1222_course_marks ADD  
+FOREIGN KEY (student_id) REFERENCES student(student_id);
+ 
+ALTER TABLE  ICT1212_course_marks ADD 
+FOREIGN KEY (student_id) REFERENCES student(student_id);
+
+
+ALTER TABLE  ICT1242_course_marks ADD
+FOREIGN KEY (student_id) REFERENCES student(student_id);
+
+
+ALTER TABLE  ICT1222_course_marks ADD  
+FOREIGN KEY (student_id) REFERENCES student(student_id);
+
+
+ALTER TABLE  ICT1233_course_marks ADD
+FOREIGN KEY (student_id) REFERENCES student(student_id);
+    
+ALTER TABLE  ICT1253_course_marks ADD
+FOREIGN KEY (student_id) REFERENCES student(student_id);
+ 
+ALTER TABLE  TCS1212_course_marks ADD
+FOREIGN KEY (student_id) REFERENCES student(student_id);
+     
+ALTER TABLE  TMS1233_course_marks ADD
+FOREIGN KEY (student_id) REFERENCES student(student_id);
+
+
+  
+—----------------------------------------------------------------------------------------------------------------------
+INSERT DETAILS TO COURSES
+—---------------------------------------------------------------------------------------------
+INSERT INTO TCS1212_course_marks (student_id, quiz_1, quiz_2, quiz_3, quiz_4, assignments, mid_exam, end_exam_marks)
+     VALUES
+     ('TG1021', 58, 00, 89, 50, 90, 85, 50),
+     ('TG1031', 99, 90, 44.5, 76, 75, 87, 87),
+     ('TG1032', 40.5, 90.5, 00, 59, 65, 58, 58),
+     ('TG1045', 88, 70, 75.5, 86.5, 85, 75, 75),
+     ('TG1047', 67, 90.7, 68.5, 76, 85, 78, 78),
+     ('TG1062', 50, 50, 20, 26, 20, 50, 50),
+     ('TG1064', 58, 20, 65, 80, 60, 76, 76),
+     ('TG1067', 90, 90, 80, 80, 85, 94, 94),
+     ('TG1084', 70, 80, 60, 70, 60, 73, 73),
+     ('TG1087', 60, 70, 30, 60, 90, 80, 50),
+     ('TG827', 90, 80, 80, 90, 67, 89, 89),
+     ('TG845', 83, 80, 90, 65, 87, 90, 90),
+     ('TG827', 70, 50.5, 90, 85, 69, 76, 76),
+     ('TG845', 50.5, 65.5, 40.7, 55, 67, 63, 63),
+     ('TG847', 64.8, 80.7, 80, 90, 85, 87, 78),
+     ('TG857', 90, 70, 80, 60.8, 85, 65, 65),
+     ('TG867', 50, 90, 40, 80, 85, 78, 78),
+     ('TG897', 90, 80, 80, 90, 95, 72, 72),
+     ('TG997', 60, 80, 70, 45.5, 87, 65, 65);
+
+
+INSERT INTO ICT1253_course_marks (student_id, quiz_1, quiz_2, quiz_3, quiz_4,practical_assignments , in_calss_test , end_exam_marks)
+     VALUES
+     ('TG1021', 58, 40, 89, 50, 90, 85, 50),
+     ('TG1031', 89, 20, 44.5, 76, 75, 87, 87),
+     ('TG1032', 69.5, 90.50, 70, 59, 65, 58, 58),
+     ('TG1045', 88, 70, 75.5, 86.5, 85, 75, 75),
+     ('TG1047', 68, 90.7, 68.5, 76, 85, 78, 78),
+     ('TG1062', 50, 00, 20, 00, 20, 50, 50),
+     ('TG1064', 58, 20, 65, 80, 60, 76, 76),
+     ('TG1067', 70, 86, 80, 80, 85, 94, 94),
+     ('TG1084', 70, 80, 70, 70, 60, 73, 73),
+     ('TG1087', 68, 70, 30, 60, 90, 80, 50),
+     ('TG827', 79, 80, 80, 90, 67, 89, 89),
+     ('TG845', 83, 80, 90, 65, 87, 90, 90),
+     ('TG827', 70, 50.5, 90, 85, 69, 76, 76),
+     ('TG845', 50.5, 65.5, 40.7, 55, 67, 63, 63),
+     ('TG847', 64.8, 80.7, 80, 90, 85, 87, 78),
+     ('TG857', 90, 70, 80, 60.8, 85, 65, 65),
+     ('TG867', 50, 90, 40, 80, 85, 78, 78),
+     ('TG897', 90, 80, 80, 90, 95, 72, 72),
+     ('TG997', 60, 80, 70, 45.5, 87, 65, 65);
+
+
+INSERT INTO TMS1233_course_marks (student_id, quiz_1, quiz_2, quiz_3, quiz_4, assignments_tutorial, mid_exam_marks, end_exam_marks)
+     VALUES
+     ('TG1021', 48, 50, 89, 50, 90, 85, 50),
+     ('TG1031', 89, 90, 44.5, 76, 75, 87, 87),
+     ('TG1032', 69.5, 90.5, 00, 59, 65, 58, 58),
+     ('TG1045', 88, 70, 75.5, 86.5, 85, 75, 75),
+     ('TG1047', 68, 90.7, 68.5, 76, 85, 78, 78),
+     ('TG1062', 50, 50, 20, 26, 20, 50, 50),
+     ('TG1064', 58, 20, 65, 80, 60, 76, 76),
+     ('TG1067', 90, 90, 80, 80, 85, 94, 94),
+     ('TG1084', 70, 80, 70, 70, 60, 73, 73),
+     ('TG1087', 60, 70, 30, 60, 90, 80, 50),
+     ('TG827', 90, 80, 80, 90, 67, 89, 89),
+     ('TG845', 83, 80, 90, 65, 87, 90, 90),
+     ('TG827', 70, 50.5, 90, 85, 69, 76, 76),
+     ('TG845', 50.5, 65.5, 40.7, 55, 67, 63, 63),
+     ('TG847', 64.8, 80.7, 80, 90, 85, 87, 78),
+     ('TG857', 90, 70, 80, 60.8, 85, 65, 65),
+     ('TG867', 50, 90, 40, 80, 85, 78, 78),
+     ('TG897', 90, 80, 80, 90, 95, 72, 72),
+     ('TG997', 60, 80, 70, 45.5, 87, 65, 65);
+
+
+INSERT INTO ICT1242_course_marks (student_id, quiz_1, quiz_2, quiz_3, quiz_4, assignments, mid_exam_marks, end_exam_marks)
+     VALUES
+     ('TG1021', 95, 100, 89, 80, 90, 85, 85),
+     ('TG1031', 89, 90, 44.5, 76, 75, 87, 87),
+     ('TG1032', 80.5, 90.5, 65, 59, 65, 58, 58),
+     ('TG1045', 88, 70, 75.5, 86.5, 85, 75, 75),
+     ('TG1047', 67, 90.7, 68.5, 76, 85, 78, 78),
+     ('TG1062', 50, 50, 20, 26, 20, 50, 50),
+     ('TG1064', 58, 80, 65, 80, 60, 76, 76),
+     ('TG1067', 90, 90, 80, 80, 85, 94, 94),
+     ('TG1084', 70, 80, 60, 70, 60, 73, 73),
+     ('TG1087', 60, 70, 90, 60, 90, 80, 80),
+     ('TG827', 90, 80, 80, 90, 67, 89, 89),
+     ('TG845', 80, 80, 90, 65, 87, 90, 90),
+     ('TG827', 70, 50.5, 90, 85, 69, 76, 76),
+     ('TG845', 50.5, 65.5, 40.7, 55, 67, 63, 63),
+     ('TG847', 60.8, 80.7, 80, 90, 85, 87, 87),
+     ('TG857', 90, 70, 80, 60.8, 85, 65, 65),
+     ('TG867', 50, 70, 40, 80, 85, 78, 78),
+     ('TG897', 90, 80, 80, 90, 95, 72, 72),
+     ('TG997', 60, 80, 70, 50, 87, 65, 65);
+
+
+INSERT INTO ICT1222_course_marks (student_id, mini_project_marks, mid_exam_marks, end_exam_marks)
+     VALUES
+     ('TG1021', 90, 85, 85),
+     ('TG1031', 75, 87, 87),
+     ('TG1032', 65, 58, 58),
+     ('TG1045', 85, 75, 35),
+     ('TG1047', 85, 78, 78),
+     ('TG1062', 20, 50, 40),
+     ('TG1064', 20, 45, 66),
+     ('TG1067', 85, 54, 94),
+     ('TG1084', 60, 33, 73),
+     ('TG1087', 90, 80, 80),
+     ('TG827', 67, 89, 89),
+     ('TG845', 87, 90, 90),
+     ('TG827', 69, 76, 76),
+     ('TG845', 67, 63, 63),
+     ('TG847', 85, 87, 87),
+     ('TG857', 85, 65, 65),
+     ('TG867', 85, 78, 78),
+     ('TG897', 95, 72, 72),
+     ('TG997', 87, 65, 65);
+
+
+INSERT INTO ICT1233_course_marks (student_id, quiz_1, quiz_2, quiz_3, quiz_4, mini_project_marks, tutorial_assignments, mid_exam_marks, end_exam_marks)
+     VALUES
+     ('TG1021', 95, 100, 89, 80, 90, 85, 90, 85),
+     ('TG1031', 89, 90, 44.5, 76, 75, 87, 75, 87),
+     ('TG1032', 80.5, 90.5, 65, 59, 65, 58, 65, 58),
+     ('TG1045', 88, 70, 75.5, 86.5, 85, 75, 85, 75),
+     ('TG1047', 67, 90.7, 68.5, 76, 85, 78, 85, 78),
+     ('TG1062', 50, 50, 20, 26, 20, 50, 20, 50),
+     ('TG1064', 58, 80, 65, 80, 60, 76, 60, 76),
+     ('TG1067', 90, 90, 80, 80, 75, 94, 85, 94),
+     ('TG1084', 70, 80, 60, 70, 60, 73, 60, 73),
+     ('TG1087', 60, 70, 90, 60, 90, 80, 90, 80),
+     ('TG827', 90, 80, 80, 90, 67, 89, 67, 89),
+     ('TG845', 80, 80, 90, 65, 87, 90, 87, 90),
+     ('TG827', 70, 50.5, 90, 85, 69, 76, 69, 76),
+     ('TG845', 50.5, 65.5, 40.7, 55, 67, 63, 67, 63),
+     ('TG847', 60.8, 80.7, 80, 90, 85, 87, 85, 87),
+     ('TG857', 90, 70, 80, 60.8, 85, 65, 85, 65),
+     ('TG867', 50, 70, 40, 80, 85, 78, 85, 78),
+     ('TG897', 90, 80, 80, 90, 95, 72, 95, 72),
+     ('TG997', 60, 80, 70, 50, 87, 65, 87, 65);
+
+
+INSERT INTO ICT1212_course_marks (student_id,quiz_1,quiz_2,quiz_3,quiz_4,mid_exam_marks,end_exam_marks)
+         VALUES
+          ('TG1021',95,100,89,80,90,85),
+          ('TG1031',89,90,44.5,76,75,87),
+          ('TG1032',80.5,90.5,65,59,65,58),
+          ('TG1045',88,70,75.5,86.5,85,75),
+          ('TG1047',67,90.7,68.5,76,85,78),
+          ('TG1062',50,50,20,26,20,50),
+          ('TG1064',58,80,65,80,60,76),
+          ('TG1067',90,90,80,80,85,94),
+          ('TG1084',70,80,60,70,60,73),
+          ('TG1087',60,70,90,60,90,80),
+          ('TG827',90,80,80,90,67,89),
+          ('TG845',80,80,90,65,87,90),
+          ('TG827',70,50.5,90,85,69,76),
+          ('TG845',50.5,65.5,40.7,55,67,63),
+          ('TG847',60.8,80.7,80,90,85,87),
+          ('TG857',90,70,80,60.8,85,65),
+          ('TG867',50,70,40,80,85,78),
+          ('TG897',90,80,80,90,95,72),
+          ('TG997',60,80,70,50,87,65);
+
+
+INSERT INTO ENG1222_course_marks (student_id,quiz_1,quiz_2,quiz_3,quiz_4,inclass_test_marks,mid_exam_marks,end_exam_marks)
+         VALUES
+          ('TG1021',95,100,85,0,100,90,85),
+          ('TG1031',88,90,34.5,76,90,75,87),
+          ('TG1032',80.5,90.5,65,89,59,65,58),
+          ('TG1045',88,90,75.5,86.5,80,85,75),
+          ('TG1047',87,90.7,68.5,86,90,85,98),
+          ('TG1062',10,30,20,26,20,00,00),
+          ('TG1064',78,80,75,80,90,85,76),
+          ('TG1067',100,90,80,80,90,85,54),
+          ('TG1084',70,80,60,70,80,75,73),
+          ('TG1087',100,100,90,90,90,95,90),
+          ('TG827',90,80,80,90,85,67,89),
+          ('TG845',80,80,70,80,65,87,90),
+          ('TG827',90,80,80,90,85,89,76),
+          ('TG845',60,60.5,70.5,90,85,77,88),
+          ('TG847',60.8,80.7,80,90,85,90,87),
+          ('TG857',90,70,80,60.8,85,65,78),
+          ('TG867',50,70,40,80,85,78,89),
+          ('TG897',90,80,80,90,95,57,92),
+          ('TG997',60,80,70,50,67,87,77);
+
+
+
+
+
+
+—------------------------------------------------------------------------------------------------------------------------
+
+
+VIEW OF ALL COURSES
+--------------------------------------------------------------------------------------------------------------------------
+ CREATE VIEW All_Final_Marks AS
+     SELECT
+         EM.student_id AS Student_ID,
+         MAX(COALESCE(ENG.final_marks, 0)) AS ENG1222_Final_Marks,
+         MAX(COALESCE(ICT1.final_marks, 0)) AS ICT1212_Final_Marks,
+         MAX(COALESCE(ICT2.final_marks, 0)) AS ICT1233_Final_Marks,
+         MAX(COALESCE(ICT3.final_marks, 0)) AS ICT1222_Final_Marks,
+         MAX(COALESCE(ICT4.final_marks, 0)) AS ICT1242_Final_Marks,
+         MAX(COALESCE(TCS.final_marks, 0)) AS TCS1212_Final_Marks,
+         MAX(COALESCE(TMS.final_marks, 0)) AS TMS1233_Final_Marks,
+         MAX(COALESCE(ICT5.final_marks, 0)) AS ICT1253_Final_Marks
+     FROM
+         (SELECT DISTINCT student_id FROM ENG1222_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM ICT1212_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM ICT1233_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM ICT1222_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM ICT1242_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM TCS1212_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM TMS1233_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM ICT1253_course_marks) AS EM
+    LEFT JOIN (SELECT DISTINCT student_id, final_marks FROM ENG1222_course_marks) AS ENG ON EM.student_id = ENG.student_id
+    LEFT JOIN (SELECT DISTINCT student_id, final_marks FROM ICT1212_course_marks) AS ICT1 ON EM.student_id = ICT1.student_id
+LEFT JOIN (SELECT DISTINCT student_id, final_marks FROM ICT1233_course_marks) AS ICT2 ON EM.student_id = ICT2.student_id
+LEFT JOIN (SELECT DISTINCT student_id, final_marks FROM ICT1222_course_marks) AS ICT3 ON EM.student_id = ICT3.student_id
+LEFT JOIN (SELECT DISTINCT student_id, final_marks FROM ICT1242_course_marks) AS ICT4 ON EM.student_id = ICT4.student_id
+LEFT JOIN (SELECT DISTINCT student_id, final_marks FROM TCS1212_course_marks) AS TCS ON EM.student_id = TCS.student_id
+LEFT JOIN (SELECT DISTINCT student_id, final_marks FROM TMS1233_course_marks) AS TMS ON EM.student_id = TMS.student_id
+LEFT JOIN (SELECT DISTINCT student_id, final_marks FROM ICT1253_course_marks) AS ICT5 ON EM.student_id = ICT5.student_id
+  GROUP BY EM.student_id;                        
+
+
+* It performs a SELECT query to retrieve data from multiple tables and derive the final marks for each student across different courses.
+* In the SELECT clause, the code assigns aliases to the final marks for each course, such as ENG1222_Final_Marks, ICT1212_Final_Marks, and so on.
+* The core of the query is a subquery (AS EM) that finds the student_id values that are common across all the specified courses using the INTERSECT operator.
+* The main query then performs a series of LEFT JOIN operations to retrieve the final marks for each course for the students found in the subquery. It uses the MAX function to ensure that if a student is found in multiple courses, it takes the maximum final mark across those courses.
+* The COALESCE function is used to replace NULL values with 0 for students who haven't taken a particular course.
+* Finally, the result is grouped by student_id to ensure that each student's final marks appear only once in the view
+__________________________________________________
+Privileges
+
+
+CREATE USER  'admin'@'localhost' IDENTIFIED BY 'admin123';
+GRANT ALL PRIVILEGES ON Tech_MIS.* TO 'admin'@'localhost'
+WITH GRANT OPTION;
+
+
+CREATE USER  'dean'@'localhost' IDENTIFIED BY 'dean123';
+GRANT ALL PRIVILEGES ON Tech_MIS.* TO 'dean'@'localhost';
+
+
+
+
+CREATE USER  'lecturer'@'localhost' IDENTIFIED BY 'lecturer123';
+GRANT SELECT ON tech_mis.all_ca_eligibility TO lecturer;
+GRANT SELECT ON tech_mis.all_courses_grades TO lecturer;
+GRANT SELECT ON tech_mis.all_final_marks TO lecturer;
+GRANT SELECT ON tech_mis.all_grades_points TO lecturer;
+GRANT SELECT ON tech_mis.ca_total_marks TO lecturer;
+GRANT SELECT ON tech_mis.course TO lecturer;
+
+
+
+
+
+
+
+
+CREATE USER  'technical_officer'@'localhost' IDENTIFIED BY 'techOfficer123';
+GRANT SELECT,INSERT,UPDATE ON tech_mis.attendance TO 'technical_officer'@'localhost'
+WITH GRANT OPTION;
+
+
+
+
+
+
+CREATE user 'student'@'localhost' IDENTIFIED BY 'std123';
+GRANT SELECT, CREATE ON tech_mis.students_final_grades TO 'student'@'localhost' WITH GRANT OPTION;
+GRANT SELECT, CREATE ON tech_mis.final_exam_eligibility TO 'student'@'localhost' WITH GRANT OPTION;
+GRANT SELECT, CREATE ON tech_mis.proper_students_final_results TO 'student'@'localhost' WITH GRANT OPTION;
+GRANT SELECT, CREATE ON tech_mis.repeaters_results TO 'student'@'localhost' WITH GRANT OPTION;
+
+
+
+
+
+
+—---------------------------------------------------------------------------------------------------------------
+GRADE VIEW
+—-------------------------------------
+     
+    CREATE VIEW All_Courses_Grades AS
+        SELECT
+                 E.student_id AS student_id,
+    
+                  MAX(CASE
+                      WHEN E.final_marks >= 90 THEN 'A+'
+                      WHEN E.final_marks >= 85 THEN 'A'
+                      WHEN E.final_marks >= 80 THEN 'A-'
+                      WHEN E.final_marks >= 75 THEN 'B+'
+                      WHEN E.final_marks >= 70 THEN 'B'
+                      WHEN E.final_marks >= 65 THEN 'B-'
+                      WHEN E.final_marks >= 60 THEN 'C+'
+                      WHEN E.final_marks >= 55 THEN 'C'
+                      WHEN E.final_marks >= 50 THEN 'C-'
+                      WHEN E.final_marks >= 45 THEN 'D'
+                      ELSE 'F'
+                  END) AS ENG1222_grade,
+    
+                  MAX(CASE
+                      WHEN I.final_marks >= 90 THEN 'A+'
+                      WHEN I.final_marks >= 85 THEN 'A'
+                      WHEN I.final_marks >= 80 THEN 'A-'
+                      WHEN I.final_marks >= 75 THEN 'B+'
+                      WHEN I.final_marks >= 70 THEN 'B'
+                      WHEN I.final_marks >= 65 THEN 'B-'
+                      WHEN I.final_marks >= 60 THEN 'C+'
+                      WHEN I.final_marks >= 55 THEN 'C'
+                      WHEN I.final_marks >= 50 THEN 'C-'
+                      WHEN I.final_marks >= 45 THEN 'D'
+                      ELSE 'F'
+                  END) AS ICT1212_grade,
+             MAX(CASE
+                  WHEN I3.final_marks >= 90 THEN 'A+'
+                  WHEN I3.final_marks >= 85 THEN 'A'
+                 WHEN I3.final_marks >= 80 THEN 'A-'
+                  WHEN I3.final_marks >= 75 THEN 'B+'
+                  WHEN I3.final_marks >= 70 THEN 'B'
+                  WHEN I3.final_marks >= 65 THEN 'B-'
+                  WHEN I3.final_marks >= 60 THEN 'C+'
+                  WHEN I3.final_marks >= 55 THEN 'C'
+              WHEN I3.final_marks >= 50 THEN 'C-'
+                  WHEN I3.final_marks >= 45 THEN 'D'
+                  ELSE 'F'
+              END) AS ICT1233_grade,
+    
+    
+             MAX(CASE
+                  WHEN I2.final_marks >= 90 THEN 'A+'
+                  WHEN I2.final_marks >= 85 THEN 'A'
+                  WHEN I2.final_marks >= 80 THEN 'A-'
+                  WHEN I2.final_marks >= 75 THEN 'B+'
+                  WHEN I2.final_marks >= 70 THEN 'B'
+                 WHEN I2.final_marks >= 65 THEN 'B-'
+                  WHEN I2.final_marks >= 60 THEN 'C+'
+                  WHEN I2.final_marks >= 55 THEN 'C'
+                  WHEN I2.final_marks >= 50 THEN 'C-'
+                  WHEN I2.final_marks >= 45 THEN 'D'
+                  ELSE 'F'
+              END) AS ICT1222_grade,
+    
+    
+             MAX( CASE
+                  WHEN I4.final_marks >= 90 THEN 'A+'
+                  WHEN I4.final_marks >= 85 THEN 'A'
+               WHEN I4.final_marks >= 80 THEN 'A-'
+                  WHEN I4.final_marks >= 75 THEN 'B+'
+                  WHEN I4.final_marks >= 70 THEN 'B'
+                  WHEN I4.final_marks >= 65 THEN 'B-'
+                  WHEN I4.final_marks >= 60 THEN 'C+'
+                  WHEN I4.final_marks >= 55 THEN 'C'
+                  WHEN I4.final_marks >= 50 THEN 'C-'
+                  WHEN I4.final_marks >= 45 THEN 'D'
+                  ELSE 'F'
+              END) AS ICT1242_grade,
+    
+    
+              MAX(CASE
+                  WHEN TCS.final_marks >= 90 THEN 'A+'
+                  WHEN TCS.final_marks >= 85 THEN 'A'
+                  WHEN TCS.final_marks >= 80 THEN 'A-'
+                  WHEN TCS.final_marks >= 75 THEN 'B+'
+                  WHEN TCS.final_marks >= 70 THEN 'B'
+                  WHEN TCS.final_marks >= 65 THEN 'B-'
+                  WHEN TCS.final_marks >= 60 THEN 'C+'
+                  WHEN TCS.final_marks >= 55 THEN 'C'
+                  WHEN TCS.final_marks >= 50 THEN 'C-'
+                  WHEN TCS.final_marks >= 45 THEN 'D'
+                  ELSE 'F'
+              END )AS TCS1212_grade,
+    
+    
+              MAX(CASE
+                  WHEN TMS.final_marks >= 90 THEN 'A+'
+                  WHEN TMS.final_marks >= 85 THEN 'A'
+                  WHEN TMS.final_marks >= 80 THEN 'A-'
+                  WHEN TMS.final_marks >= 75 THEN 'B+'
+                  WHEN TMS.final_marks >= 70 THEN 'B'
+                  WHEN TMS.final_marks >= 65 THEN 'B-'
+                  WHEN TMS.final_marks >= 60 THEN 'C+'
+                  WHEN TMS.final_marks >= 55 THEN 'C'
+                  WHEN TMS.final_marks >= 50 THEN 'C-'
+                  WHEN TMS.final_marks >= 45 THEN 'D'
+                  ELSE 'F'
+              END) AS TMS1233_grade,
+   
+    
+             MAX( CASE
+                  WHEN I5.final_marks >= 90 THEN 'A+'
+                 WHEN I5.final_marks >= 85 THEN 'A'
+                  WHEN I5.final_marks >= 80 THEN 'A-'
+                  WHEN I5.final_marks >= 75 THEN 'B+'
+                  WHEN I5.final_marks >= 70 THEN 'B'
+                 WHEN I5.final_marks >= 65 THEN 'B-'
+                  WHEN I5.final_marks >= 60 THEN 'C+'
+                  WHEN I5.final_marks >= 55 THEN 'C'
+                  WHEN I5.final_marks >= 50 THEN 'C-'
+                  WHEN I5.final_marks >= 45 THEN 'D'
+                  ELSE 'F'
+              END) AS ICT1253_grade
+    
+        FROM ENG1222_course_marks AS E
+          LEFT JOIN ICT1212_course_marks AS I ON E.student_id = I.student_id
+          LEFT JOIN ICT1233_course_marks AS I3 ON E.student_id = I3.student_id
+          LEFT JOIN ICT1222_course_marks AS I2 ON E.student_id = I2.student_id
+          LEFT JOIN ICT1242_course_marks AS I4 ON E.student_id = I4.student_id
+          LEFT JOIN TCS1212_course_marks AS TCS ON E.student_id = TCS.student_id
+          LEFT JOIN TMS1233_course_marks AS TMS ON E.student_id = TMS.student_id
+          LEFT JOIN ICT1253_course_marks AS I5 ON E.student_id = I5.student_id
+        GROUP BY student_id;
+
+
+Virtual Generated Column:
+* A virtual generated column, also known as a computed or generated column, is one whose values are calculated on the fly when queried. The calculation is performed each time you access the column, and the values are not physically stored in the table.
+* Virtual columns are defined using the GENERATED ALWAYS AS clause, and you provide an expression to calculate the values based on other columns.
+* Virtual columns are handy for dynamic calculations or when you want to save storage space.
+
+
+Stored Generated Column:
+* A stored generated column, on the other hand, is one where the values are calculated when data is inserted or updated and then physically stored in the table.
+* Stored columns are defined using the GENERATED ALWAYS AS clause with the STORED keyword.
+* Stored columns are useful when you want to persist the calculated values in the table, saving computation time during queries.
+
+
+—------------------------------------------------------------------------------------------------------------------------
+ATTENDANCE  table structure
+—-----------------------------------------------------------------------------------------------------------------------
+ CREATE TABLE attendance (
+         student_id VARCHAR(10),
+         course_id VARCHAR(10),
+         week_01 VARCHAR(2),
+         week_02 VARCHAR(2),
+         week_03 VARCHAR(2),
+         week_04 VARCHAR(2),
+         week_05 VARCHAR(2),
+         week_06 VARCHAR(2),
+         week_07 VARCHAR(2),
+         week_08 VARCHAR(2),
+         week_09 VARCHAR(2),
+         week_10 VARCHAR(2),
+         week_11 VARCHAR(2),
+         week_12 VARCHAR(2),
+         week_13 VARCHAR(2),
+         week_14 VARCHAR(2),
+         week_15 VARCHAR(2),
+         total_attended INT GENERATED ALWAYS AS (
+             CASE
+                 WHEN week_01 = 'AB' THEN 0
+                 WHEN week_01 = 'MC' THEN 1
+                 ELSE CAST(week_01 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_02 = 'AB' THEN 0
+                 WHEN week_02 = 'MC' THEN 1
+                 ELSE CAST(week_02 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_03 = 'AB' THEN 0
+                 WHEN week_03 = 'MC' THEN 1
+                 ELSE CAST(week_03 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_04 = 'AB' THEN 0
+                 WHEN week_04 = 'MC' THEN 1
+                 ELSE CAST(week_04 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_05 = 'AB' THEN 0
+                 WHEN week_05 = 'MC' THEN 1
+                 ELSE CAST(week_05 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_06 = 'AB' THEN 0
+                 WHEN week_06 = 'MC' THEN 1
+                 ELSE CAST(week_06 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_07 = 'AB' THEN 0
+                 WHEN week_07 = 'MC' THEN 1
+                 ELSE CAST(week_07 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_08 = 'AB' THEN 0
+                 WHEN week_08 = 'MC' THEN 1
+                 ELSE CAST(week_08 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_09 = 'AB' THEN 0
+                 WHEN week_09 = 'MC' THEN 1
+                 ELSE CAST(week_09 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_10 = 'AB' THEN 0
+                 WHEN week_10 = 'MC' THEN 1
+                 ELSE CAST(week_10 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_11 = 'AB' THEN 0
+                 WHEN week_11 = 'MC' THEN 1
+                 ELSE CAST(week_11 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_12 = 'AB' THEN 0
+                 WHEN week_12 = 'MC' THEN 1
+                 ELSE CAST(week_12 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_13 = 'AB' THEN 0
+                 WHEN week_13 = 'MC' THEN 1
+                 ELSE CAST(week_13 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_14 = 'AB' THEN 0
+                 WHEN week_14 = 'MC' THEN 1
+                 ELSE CAST(week_14 AS SIGNED)
+             END +
+             CASE
+                 WHEN week_15 = 'AB' THEN 0
+                 WHEN week_15 = 'MC' THEN 1
+                 ELSE CAST(week_15 AS SIGNED)
+            END
+        ),
+       PRIMARY KEY (student_id, course_id)
+     );
+—--------------------------------
+INSERTION 
+—-----------------------------------
+
+
+INSERT INTO attendance (student_id, course_id, week_01, week_02, week_03, week_04, week_05, week_06, week_07, week_08, week_09, week_10, week_11, week_12, week_13, week_14, week_15)
+     VALUES
+ ('TG1021', 'ENG1222', '1', '1', '1', 'AB', '1', '1', '1', '1', '1', 'MC', '1', 'AB', '1', '1', '1'), 
+     ('TG1031', 'ENG1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1'),
+     ('TG1032', 'ENG1222', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1', '1', '1', '1'),
+      ('TG1045', 'ENG1222', '1', 'AB', '1', '1', 'AB', '1', 'AB', '1', 'AB', '1', '1', 'AB', '1', 'AB', '1'),
+     ('TG1047', 'ENG1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+     ('TG1062', 'ENG1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1064', 'ENG1222', '1', '1', 'MC', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1067', 'ENG1222', '1', '1', 'AB', '1', '1', 'AB', '1', 'AB', '1', 'AB', '1', '1', 'AB', '1', 'MC'),
+      ('TG1084', 'ENG1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1087', 'ENG1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+
+
+     ('TG1021', 'ICT1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1031', 'ICT1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1'),
+      ('TG1032', 'ICT1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1045', 'ICT1212', '1', 'MC', '1', '1', 'AB', '1', '1', '1', 'AB', '1', '1', '1', '1', '1', '1'),
+      ('TG1047', 'ICT1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1062', 'ICT1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1064', 'ICT1212', '1', '1', 'MC', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1067', 'ICT1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', 'AB', '1', 'MC'),
+      ('TG1084', 'ICT1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1087', 'ICT1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+       ('TG1021', 'ICT1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1031', 'ICT1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1'),
+      ('TG1032', 'ICT1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1045', 'ICT1222', '1', 'MC', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1', '1', '1', '1'),
+      ('TG1047', 'ICT1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1062', 'ICT1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1064', 'ICT1222', '1', '1', 'MC', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1067', 'ICT1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', 'AB', '1', 'MC'),
+      ('TG1084', 'ICT1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1087', 'ICT1222', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1021', 'ICT1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1031', 'ICT1233', '1', '1', '1', '1', 'AB', '1', 'AB', '1', '1', '1', '1', 'AB', '1', 'AB', '1'),
+      ('TG1032', 'ICT1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1045', 'ICT1233', '1', 'MC', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1', '1', '1', '1'),
+      ('TG1047', 'ICT1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1062', 'ICT1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1064', 'ICT1233', '1', '1', 'MC', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1067', 'ICT1233', '1', '1', 'AB', '1', 'AB', 'AB', '1', '1', '1', 'AB', '1', '1', 'AB', '1', 'MC'),
+      ('TG1084', 'ICT1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1087', 'ICT1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+     ('TG1021', 'ICT1242', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1031', 'ICT1242', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1'),
+      ('TG1032', 'ICT1242', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1045', 'ICT1242', '1', 'MC', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1', '1', '1', '1'),
+      ('TG1047', 'ICT1242', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1062', 'ICT1242', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1064', 'ICT1242', '1', '1', 'MC', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1067', 'ICT1242', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', 'AB', '1', 'MC'),
+      ('TG1084', 'ICT1242', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1087', 'ICT1242', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+    ('TG1021', 'ICT1253', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1031', 'ICT1253', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1'),
+      ('TG1032', 'ICT1253', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1045', 'ICT1253', '1', 'MC', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1', '1', '1', '1'),
+      ('TG1047', 'ICT1253', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1062', 'ICT1253', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1064', 'ICT1253', '1', '1', 'MC', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1067', 'ICT1253', '1', '1', 'AB', '1', 'AB', '1', '1', '1', '1', 'AB', '1', '1', 'AB', '1', 'MC'),
+      ('TG1084', 'ICT1253', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1087', 'ICT1253', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+    ('TG1021', ' TCS1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1031', 'TCS1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1'),
+      ('TG1032', 'TCS1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1045', 'TCS1212', '1', 'MC', '1', '1', '1', '1', 'AB', '1', 'AB', '1', '1', 'AB', '1', 'AB', '1'),
+      ('TG1047', 'TCS1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1062', 'TCS1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1064', 'TCS1212', '1', '1', 'MC', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1067', 'TCS1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', 'AB', '1', 'MC'),
+      ('TG1084', 'TCS1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1087', 'TCS1212', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+    ('TG1021', 'TMS1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1031', 'TMS1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1', '1'),
+      ('TG1032', 'TMS1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1045', 'TMS1233', '1', 'MC', '1', '1', 'AB', '1', 'AB', '1', 'AB', '1', 'AB', '1', 'AB', '1', '1'),
+      ('TG1047', 'TMS1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1062', 'TMS1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'),
+      ('TG1064', 'TMS1233', '1', '1', 'MC', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1067', 'TMS1233', '1', '1', 'AB', '1', 'AB', '1', '1', '1', '1', 'AB', '1', '1', 'AB', '1', 'MC'),
+      ('TG1084', 'TMS1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 'AB', '1', '1'),
+      ('TG1087', 'TMS1233', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1');
+
+
+ALTER TABLE attendance
+ADD FOREIGN KEY (student_id)REFERENCES student(student_id);
+
+
+ALTER TABLE attendance
+ADD FOREIGN KEY (course_id)REFERENCES course(course_id);
+
+
+_________________________________________________________________________
+
+
+ELIGIBILITY VIEW AS ATTENDANCE STATUS
+_________________________________________________________________________
+
+
+ CREATE VIEW attendance_status AS
+     SELECT
+         student_id,
+         course_id,
+         total_attended,
+         CASE
+             WHEN (total_attended / 15.0) * 100 >= 80 THEN 'eligible'
+             ELSE 'not eligible'
+         END AS eligibility_status
+     FROM attendance;
+ 
+_________________________________________________________________________
+
+
+GPA VIEW
+_________________________________________________________________________
+
+
+CREATE VIEW All_Grades_points AS
+           SELECT
+                      E.student_id AS student_id,
+    
+                       MAX(CASE
+          WHEN E.final_marks >= 90 THEN 4.0
+                  WHEN E.final_marks >= 85 THEN 4.0
+                  WHEN E.final_marks >= 80 THEN 3.7
+                  WHEN E.final_marks >= 75 THEN 3.0
+                  WHEN E.final_marks >= 70 THEN 2.0
+                  WHEN E.final_marks >= 65 THEN 2.7
+                  WHEN E.final_marks >= 60 THEN 2.3
+                  WHEN E.final_marks >= 55 THEN 2.0
+                  WHEN E.final_marks >= 50 THEN 1.5
+                  WHEN E.final_marks >= 45 THEN 1.0
+                  ELSE '0.0'
+                       END) AS ENG1222,
+    
+                       MAX(CASE
+          WHEN I.final_marks >= 90 THEN 4.0
+                  WHEN E.final_marks >= 85 THEN 4.0
+                  WHEN E.final_marks >= 80 THEN 3.7
+                  WHEN E.final_marks >= 75 THEN 3.0
+                  WHEN E.final_marks >= 70 THEN 2.0
+                  WHEN E.final_marks >= 65 THEN 2.7
+                  WHEN E.final_marks >= 60 THEN 2.3
+                  WHEN E.final_marks >= 55 THEN 2.0
+                  WHEN E.final_marks >= 50 THEN 1.5
+                  WHEN E.final_marks >= 45 THEN 1.0
+                  ELSE '0.0'
+                       END) AS ICT1212,
+                  MAX(CASE
+          WHEN I3.final_marks >= 90 THEN 4.0
+                  WHEN E.final_marks >= 85 THEN 4.0
+                  WHEN E.final_marks >= 80 THEN 3.7
+                  WHEN E.final_marks >= 75 THEN 3.0
+                  WHEN E.final_marks >= 70 THEN 2.0
+                  WHEN E.final_marks >= 65 THEN 2.7
+                  WHEN E.final_marks >= 60 THEN 2.3
+                  WHEN E.final_marks >= 55 THEN 2.0
+                  WHEN E.final_marks >= 50 THEN 1.5
+                  WHEN E.final_marks >= 45 THEN 1.0
+                  ELSE '0.0'
+                   END) AS ICT1233,
+                  MAX(CASE
+          WHEN I2.final_marks >= 90 THEN 4.0
+                  WHEN E.final_marks >= 85 THEN 4.0
+                  WHEN E.final_marks >= 80 THEN 3.7
+                  WHEN E.final_marks >= 75 THEN 3.0
+                  WHEN E.final_marks >= 70 THEN 2.0
+                  WHEN E.final_marks >= 65 THEN 2.7
+                  WHEN E.final_marks >= 60 THEN 2.3
+                  WHEN E.final_marks >= 55 THEN 2.0
+                  WHEN E.final_marks >= 50 THEN 1.5
+                  WHEN E.final_marks >= 45 THEN 1.0
+                  ELSE '0.0'
+                   END) AS ICT1222,
+                  MAX(CASE
+          WHEN I4.final_marks >= 90 THEN 4.0
+                  WHEN E.final_marks >= 85 THEN 4.0
+                  WHEN E.final_marks >= 80 THEN 3.7
+                  WHEN E.final_marks >= 75 THEN 3.0
+                  WHEN E.final_marks >= 70 THEN 2.0
+                  WHEN E.final_marks >= 65 THEN 2.7
+                  WHEN E.final_marks >= 60 THEN 2.3
+                  WHEN E.final_marks >= 55 THEN 2.0
+                  WHEN E.final_marks >= 50 THEN 1.5
+                  WHEN E.final_marks >= 45 THEN 1.0
+                  ELSE '0.0'
+                   END) AS ICT1242,
+                  MAX(CASE
+          WHEN TCS.final_marks >= 90 THEN 4.0
+                  WHEN E.final_marks >= 85 THEN 4.0
+                  WHEN E.final_marks >= 80 THEN 3.7
+                  WHEN E.final_marks >= 75 THEN 3.0
+                  WHEN E.final_marks >= 70 THEN 2.0
+                  WHEN E.final_marks >= 65 THEN 2.7
+                  WHEN E.final_marks >= 60 THEN 2.3
+                  WHEN E.final_marks >= 55 THEN 2.0
+                  WHEN E.final_marks >= 50 THEN 1.5
+                  WHEN E.final_marks >= 45 THEN 1.0
+                  ELSE '0.0'
+                   END) AS TCS1212,
+                  MAX(CASE
+          WHEN TMS.final_marks >= 90 THEN 4.0
+                  WHEN E.final_marks >= 85 THEN 4.0
+                  WHEN E.final_marks >= 80 THEN 3.7
+                  WHEN E.final_marks >= 75 THEN 3.0
+                  WHEN E.final_marks >= 70 THEN 2.0
+                  WHEN E.final_marks >= 65 THEN 2.7
+                  WHEN E.final_marks >= 60 THEN 2.3
+                  WHEN E.final_marks >= 55 THEN 2.0
+                  WHEN E.final_marks >= 50 THEN 1.5
+                  WHEN E.final_marks >= 45 THEN 1.0
+                  ELSE '0.0'
+                   END) AS TMS1233,
+                  MAX(CASE
+          WHEN I5.final_marks >= 90 THEN 4.0
+                  WHEN E.final_marks >= 85 THEN 4.0
+                  WHEN E.final_marks >= 80 THEN 3.7
+                  WHEN E.final_marks >= 75 THEN 3.0
+                  WHEN E.final_marks >= 70 THEN 2.0
+                  WHEN E.final_marks >= 65 THEN 2.7
+                  WHEN E.final_marks >= 60 THEN 2.3
+                  WHEN E.final_marks >= 55 THEN 2.0
+                  WHEN E.final_marks >= 50 THEN 1.5
+                  WHEN E.final_marks >= 45 THEN 1.0
+                  ELSE '0.0'
+                   END) AS ICT1253
+             FROM ENG1222_course_marks AS E
+               LEFT JOIN ICT1212_course_marks AS I ON E.student_id = I.student_id
+               LEFT JOIN ICT1233_course_marks AS I3 ON E.student_id = I3.student_id
+               LEFT JOIN ICT1222_course_marks AS I2 ON E.student_id = I2.student_id
+               LEFT JOIN ICT1242_course_marks AS I4 ON E.student_id = I4.student_id
+               LEFT JOIN TCS1212_course_marks AS TCS ON E.student_id = TCS.student_id
+               LEFT JOIN TMS1233_course_marks AS TMS ON E.student_id = TMS.student_id
+               LEFT JOIN ICT1253_course_marks AS I5 ON E.student_id = I5.student_id
+              GROUP BY student_id;
+—----------------------------------------------------------------------------------------------------------
+
+
+ CREATE VIEW Student_GPA AS
+          SELECT
+         AGP.student_id,
+          SUM(
+                  (CASE WHEN AGP.ENG1222 IS NOT NULL THEN AGP.ENG1222 * C1.credits ELSE 0 END) +
+    -            (CASE WHEN AGP.ICT1212 IS NOT NULL THEN AGP.ICT1212 * C2.credits ELSE 0 END) +
+                 (CASE WHEN AGP.ICT1233 IS NOT NULL THEN AGP.ICT1233 * C3.credits ELSE 0 END) +
+                 (CASE WHEN AGP.ICT1222 IS NOT NULL THEN AGP.ICT1222 * C4.credits ELSE 0 END) +
+                  (CASE WHEN AGP.ICT1242 IS NOT NULL THEN AGP.ICT1242 * C5.credits ELSE 0 END) +
+                  (CASE WHEN AGP.TCS1212 IS NOT NULL THEN AGP.TCS1212 * C6.credits ELSE 0 END) +
+                 (CASE WHEN AGP.TMS1233 IS NOT NULL THEN AGP.TMS1233 * C7.credits ELSE 0 END) +
+                 (CASE WHEN AGP.ICT1253 IS NOT NULL THEN AGP.ICT1253 * C8.credits ELSE 0 END)
+              ) /
+              SUM(
+                  (CASE WHEN AGP.ENG1222 IS NOT NULL THEN C1.credits ELSE 0 END) +
+                  (CASE WHEN AGP.ICT1212 IS NOT NULL THEN C2.credits ELSE 0 END) +
+                  (CASE WHEN AGP.ICT1233 IS NOT NULL THEN C3.credits ELSE 0 END) +
+                  (CASE WHEN AGP.ICT1222 IS NOT NULL THEN C4.credits ELSE 0 END) +
+                  (CASE WHEN AGP.ICT1242 IS NOT NULL THEN C5.credits ELSE 0 END) +
+                  (CASE WHEN AGP.TCS1212 IS NOT NULL THEN C6.credits ELSE 0 END) +
+                  (CASE WHEN AGP.TMS1233 IS NOT NULL THEN C7.credits ELSE 0 END) +
+                  (CASE WHEN AGP.ICT1253 IS NOT NULL THEN C8.credits ELSE 0 END)
+              ) AS SGPA
+          FROM All_Grades_points AGP
+          LEFT JOIN COURSE C1 ON AGP.ENG1222 IS NOT NULL AND AGP.ENG1222 > 0 AND C1.course_id = 'ENG1222'
+          LEFT JOIN COURSE C2 ON AGP.ICT1212 IS NOT NULL AND AGP.ICT1212 > 0 AND C2.course_id = 'ICT1212'
+          LEFT JOIN COURSE C3 ON AGP.ICT1233 IS NOT NULL AND AGP.ICT1233 > 0 AND C3.course_id = 'ICT1233'
+          LEFT JOIN COURSE C4 ON AGP.ICT1222 IS NOT NULL AND AGP.ICT1222 > 0 AND C4.course_id = 'ICT1222'
+          LEFT JOIN COURSE C5 ON AGP.ICT1242 IS NOT NULL AND AGP.ICT1242 > 0 AND C5.course_id = 'ICT1242'
+          LEFT JOIN COURSE C6 ON AGP.TCS1212 IS NOT NULL AND AGP.TCS1212 > 0 AND C6.course_id = 'TCS1212'
+          LEFT JOIN COURSE C7 ON AGP.TMS1233 IS NOT NULL AND AGP.TMS1233 > 0 AND C7.course_id = 'TMS1233'
+          LEFT JOIN COURSE C8 ON AGP.ICT1253 IS NOT NULL AND AGP.ICT1253 > 0 AND C8.course_id = 'ICT1253'
+         GROUP BY AGP.student_id;
+
+
+
+
+SELECT * FROM student_gpa;
++------------+--------------------+
+| student_id | GPA                |
++------------+--------------------------------+
+| TG1021     |                  4                 |
+| TG1031     | 3.7000000000000006 |
+| TG1032     |                2.3                |
+| TG1045     |                  3                 |
+| TG1047     |                  4                 |
+| TG1062     |               NULL             |
+| TG1064     |                  3 |
+| TG1067     |                  4 |
+| TG1084     |                  2 |
+| TG1087     |                  4 |
+| TG827      | 3.7000000000000006 |
+| TG845      |                  4 |
+| TG847      |                  4 |
+| TG857      |                  3 |
+| TG867      | 3.7000000000000006 |
+| TG897      | 3.7000000000000006 |
+| TG997      | 3.7000000000000006 |
+
+
+
+
+CONCAT NAME
+—--------------------------------------------------------------------------------------------------------
+
+
+ 
+ CREATE VIEW student_details AS
+     SELECT
+         s.student_id,
+         s.batch,
+         CONCAT(u.first_name, ' ', u.last_name) AS full_name
+     FROM student AS s
+     INNER JOIN user AS u ON s.user_id = u.user_id;
+
+
+
+
+ CREATE OR REPLACE VIEW students_final_grades AS
+     SELECT
+        SD.student_id,
+         SD.full_name,
+         ACG.ENG1222_grade,
+         ACG.ICT1212_grade,
+         ACG.ICT1233_grade,
+         ACG.ICT1222_grade,
+         ACG.ICT1242_grade,
+         ACG.TCS1212_grade,
+         ACG.TMS1233_grade,
+         ACG.ICT1253_grade,
+         SG.SGPA
+     FROM student_details SD
+     LEFT JOIN all_courses_grades ACG ON SD.student_id = ACG.student_id
+     LEFT JOIN Student_GPA SG ON SD.student_id = SG.student_id;
+
+
+
+
+
+
+
+
+
+
+CREATE OR REPLACE VIEW  students_GPA_view   AS
+ SELECT
+          all_courses_grades.student_id,
+          student_details.full_name,
+          all_courses_grades.ENG1222_grade,
+          all_courses_grades.ICT1212_grade,
+          all_courses_grades.ICT1233_grade,
+          all_courses_grades.ICT1222_grade,
+          all_courses_grades.ICT1242_grade,
+          all_courses_grades.TCS1212_grade,
+          all_courses_grades.TMS1233_grade,
+          all_courses_grades.ICT1253_grade
+     FROM  all_courses_grades
+     INNER JOIN student_details
+     ON  all_courses_grades.student_id = student_details.student_id;
+
+
+
+
+
+
+
+
+
+
+CREATE OR REPLACE VIEW  details_of_students AS
+ SELECT
+         All_Final_marks.student_id,
+         student_details.full_name,
+         All_Final_marks.ENG1222_Final_Marks,
+         All_Final_marks.ICT1212_Final_Marks,
+         All_Final_marks.ICT1233_Final_Marks,
+         All_Final_marks.ICT1222_Final_Marks,
+         All_Final_marks.ICT1242_Final_Marks,
+         All_Final_marks.TCS1212_Final_Marks,
+         All_Final_marks.TMS1233_Final_Marks,
+         All_Final_marks.ICT1253_Final_Marks
+     FROM All_Final_marks
+     INNER JOIN student_details
+     ON All_Final_marks.student_id = student_details.student_id;
+
+
+
+
+_________________________________________________________________________
+PROCEDURES
+_________________________________________________________________________
+
+
+To get the result individually
+
+
+mysql> 
+
+
+CREATE PROCEDURE GetStudentResult(IN studentID VARCHAR(10))
+    BEGIN
+    SELECT * FROM students_final_grades WHERE student_id = studentID;
+    END //
+
+
+To get the exam eligibility accordingly 
+
+
+CREATE PROCEDURE getExamEligibility(IN input VARCHAR(255))
+          BEGIN
+    
+              IF input LIKE 'TG%' THEN
+                 SELECT * FROM final_exam_eligibility WHERE student_id = input;
+              ELSE
+                  SELECT * FROM final_exam_eligibility WHERE course_id = input;
+              END IF;
+          END;
+          //
+
+
+To get the total marks of ALL students according to course code
+DELIMITER //
+
+
+CREATE PROCEDURE GetCourseMarks(IN course_code VARCHAR(10))
+BEGIN
+    SET course_code = UPPER(course_code);  -- Convert the input to uppercase for case insensitivity
+    IF course_code IN ('ENG1222', 'ICT1212', 'ICT1233', 'ICT1222', 'ICT1242', 'TCS1212', 'TMS1233', 'ICT1253') THEN
+        SELECT
+            Student_ID,
+            CASE
+                WHEN course_code = 'ENG1222' THEN ENG1222_Final_Marks
+                WHEN course_code = 'ICT1212' THEN ICT1212_Final_Marks
+                WHEN course_code = 'ICT1233' THEN ICT1233_Final_Marks
+                WHEN course_code = 'ICT1222' THEN ICT1222_Final_Marks
+                WHEN course_code = 'ICT1242' THEN ICT1242_Final_Marks
+                WHEN course_code = 'TCS1212' THEN TCS1212_Final_Marks
+                WHEN course_code = 'TMS1233' THEN TMS1233_Final_Marks
+                WHEN course_code = 'ICT1253' THEN ICT1253_Final_Marks
+            END AS Course_Marks
+        FROM
+            all_final_marks;
+    ELSE
+        SELECT 'Invalid Course Code' AS Course_Marks;
+    END IF;
+END //
+
+
+DELIMITER ;
+
+
+
+
+
+
+
+
+
+
+—-------------------------------------------------------------------------------
+TOTAL CA MARKS
+—-------------------------------------------
+
+
+
+
+ CREATE VIEW All_CA_Eligibility AS
+     SELECT student_id, course_id,
+         CASE
+             WHEN CA_total_marks > 19.5 THEN 'Eligible'
+             ELSE 'Not Eligible'
+         END AS Eligibility
+     FROM (
+         SELECT student_id, 'ENG1222' AS course_id, CA_total_marks
+         FROM ENG1222_course_marks
+         UNION ALL
+         SELECT student_id, 'ICT1212' AS course_id, CA_total_marks
+         FROM ICT1212_course_marks
+         UNION ALL
+         SELECT student_id, 'ICT1222' AS course_id, CA_total_marks
+         FROM ICT1222_course_marks
+         UNION ALL
+         SELECT student_id, 'ICT1242' AS course_id, CA_total_marks
+         FROM ICT1242_course_marks
+         UNION ALL
+         SELECT student_id, 'TCS1212' AS course_id, CA_total_marks
+         FROM TCS1212_course_marks
+         UNION ALL
+         SELECT student_id, 'TMS1233' AS course_id, CA_total_marks
+         FROM TMS1233_course_marks
+         UNION ALL
+         SELECT student_id, 'ICT1253' AS course_id, CA_total_marks
+         FROM ICT1253_course_marks
+     ) AS All_Courses;
+
+
+
+
+CREATE VIEW Final_Exam_Eligibility AS
+     SELECT
+         A.student_id,
+         A.course_id,
+         CASE
+             WHEN C.Eligibility = 'Eligible' AND A.eligibility_status = 'Eligible' THEN 'E'
+             WHEN C.Eligibility = 'Not Eligible' AND A.eligibility_status = 'Not Eligible' THEN 'NE'
+             WHEN C.Eligibility = 'Eligible' AND A.eligibility_status = 'Not Eligible' THEN 'NE*'
+             WHEN C.Eligibility = 'Not Eligible' AND A.eligibility_status = 'Eligible' THEN 'NE**'
+         END AS final_exam_eligibility
+     FROM attendance_status A
+     JOIN All_CA_Eligibility C ON A.student_id = C.student_id AND A.course_id = C.course_id;
+—--------------------------------------------------------------------------------------------------------------
+
+
+ CREATE VIEW Proper_students_final_results  AS
+     SELECT DISTINCT g.student_id, g.full_name, g.ENG1222_grade, g.ICT1212_grade, g.ICT1233_grade, g.ICT1222_grade, g.ICT1242_grade, g.TCS1212_grade, g.TMS1233_grade, g.ICT1253_grade, g.SGPA
+     FROM students_final_grades g
+     JOIN (
+         SELECT DISTINCT f.student_id, e.course_id
+         FROM Final_Exam_Eligibility e
+         JOIN ALL_final_marks f ON e.student_id = f.Student_ID
+         WHERE e.final_exam_eligibility = 'E'
+     ) AS eligible_students ON g.student_id = eligible_students.student_id;
+
+
+—-----------------------------------------------------------------------------------------------------------------------
+Repeaters view
+—---------------------------------------------------------------------
+create view repeat_students as
+    SELECT * FROM students_final_grades ORDER BY student_id DESC LIMIT 6;
+
+
+CREATE VIEW repeaters_results  AS
+SELECT
+    student_id,
+    full_name,
+    CASE 
+        WHEN student_id IN ('TG997','TG845') THEN 'C'
+        WHEN ENG1222_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ENG1222_grade,
+    CASE 
+        WHEN student_id IN ('TG897', 'TG867') THEN 'C'
+        WHEN ICT1212_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ICT1212_grade,
+    CASE 
+        WHEN student_id IN ('TG897', 'TG857') THEN 'C'
+        WHEN ICT1233_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ICT1233_grade,
+    CASE 
+        WHEN student_id IN ('TG897', 'TG857','TG845') THEN 'C'
+        WHEN TMS1233_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS TMS1233_grade,
+   CASE 
+        WHEN student_id IN ('TG897', 'TG857') THEN 'C'
+        WHEN ICT1222_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ICT1222_grade,
+    
+ CASE 
+        WHEN student_id IN ('TG897', 'TG857') THEN 'C'
+        WHEN ICT1242_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ICT1242_grade,
+  
+CASE 
+        WHEN student_id IN ('TG847', 'TG857') THEN 'C'
+        WHEN TCS1212_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS TCS1212_grade,
+   
+    CASE 
+        WHEN student_id IN ('TG897', 'TG867') THEN 'C'
+        WHEN ICT1253_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ICT1253_grade
+FROM repeat_students;
+
+
+
+
+           
+ CREATE VIEW CA_total_marks AS
+     SELECT
+         EM.student_id AS Student_ID,
+         MAX(COALESCE(ENG.CA_total_marks, 0)) AS ENG1222_CA_total_marks,
+         MAX(COALESCE(ICT1.CA_total_marks, 0)) AS ICT1212_CA_total_marks,
+         MAX(COALESCE(ICT3.CA_total_marks, 0)) AS ICT1222_CA_total_marks,
+         MAX(COALESCE(ICT4.CA_total_marks, 0)) AS ICT1242_CA_total_marks,
+         MAX(COALESCE(TCS.CA_total_marks, 0)) AS TCS1212_CA_total_marks,
+         MAX(COALESCE(TMS.CA_total_marks, 0)) AS TMS1233_CA_total_marks,
+         MAX(COALESCE(ICT5.CA_total_marks, 0)) AS ICT1253_CA_total_marks
+     FROM
+         (SELECT DISTINCT student_id FROM ENG1222_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM ICT1212_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM ICT1222_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM ICT1242_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM TCS1212_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM TMS1233_course_marks
+          INTERSECT
+          SELECT DISTINCT student_id FROM ICT1253_course_marks) AS EM
+     LEFT JOIN (SELECT DISTINCT student_id, CA_total_marks FROM ENG1222_course_marks) AS ENG ON EM.student_id = ENG.student_id
+     LEFT JOIN (SELECT DISTINCT student_id, CA_total_marks FROM ICT1212_course_marks) AS ICT1 ON EM.student_id = ICT1.student_id
+     LEFT JOIN (SELECT DISTINCT student_id, CA_total_marks FROM ICT1222_course_marks) AS ICT3 ON EM.student_id = ICT3.student_id
+     LEFT JOIN (SELECT DISTINCT student_id, CA_total_marks FROM ICT1242_course_marks) AS ICT4 ON EM.student_id = ICT4.student_id
+     LEFT JOIN (SELECT DISTINCT student_id, CA_total_marks FROM TCS1212_course_marks) AS TCS ON EM.student_id = TCS.student_id
+     LEFT JOIN (SELECT DISTINCT student_id, CA_total_marks FROM TMS1233_course_marks) AS TMS ON EM.student_id = TMS.student_id
+     LEFT JOIN (SELECT DISTINCT student_id, CA_total_marks FROM ICT1253_course_marks) AS ICT5 ON EM.student_id = ICT5.student_id
+     GROUP BY EM.student_id;
+
+
+
+
+CREATE VIEW repeaters_results AS
+SELECT
+    RS.student_id,
+    RS.full_name,
+    CASE
+        WHEN RS.student_id IN ('TG997', 'TG845') THEN 'C'
+        WHEN ACG.ENG1222_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ENG1222_grade,
+    CASE
+        WHEN RS.student_id IN ('TG897', 'TG867') THEN 'C'
+        WHEN ACG.ICT1212_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ICT1212_grade,
+    CASE
+        WHEN RS.student_id IN ('TG897', 'TG857') THEN 'C'
+        WHEN ACG.ICT1233_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ICT1233_grade,
+    CASE
+        WHEN RS.student_id IN ('TG897', 'TG857', 'TG845') THEN 'C'
+        WHEN ACG.TMS1233_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS TMS1233_grade,
+    CASE
+        WHEN RS.student_id IN ('TG827', 'TG857') THEN 'C'
+        WHEN ACG.ICT1222_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ICT1222_grade,
+    CASE
+        WHEN RS.student_id IN ('TG897', 'TG857') THEN 'C'
+        WHEN ACG.ICT1242_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ICT1242_grade,
+    CASE
+        WHEN RS.student_id IN ('TG847', 'TG857') THEN 'C'
+        WHEN ACG.TCS1212_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS TCS1212_grade,
+    CASE
+        WHEN RS.student_id IN ('TG897', 'TG867') THEN 'C'
+        WHEN ACG.ICT1253_grade IS NULL THEN NULL
+        ELSE '-'
+    END AS ICT1253_grade,
+    SG.SGPA
+FROM repeat_students RS
+LEFT JOIN student_details SD ON RS.student_id = SD.student_id
+LEFT JOIN all_courses_grades ACG ON SD.student_id = ACG.student_id
+LEFT JOIN Student_GPA SG ON SD.student_id = SG.student_id;
